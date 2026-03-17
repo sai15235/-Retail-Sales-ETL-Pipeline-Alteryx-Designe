@@ -1,0 +1,203 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:10px}
+.ct{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.badge{font-size:11px;padding:2px 8px;border-radius:20px}
+.bg{background:var(--color-background-success);color:var(--color-text-success)}
+.ba{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bb{background:var(--color-background-info);color:var(--color-text-info)}
+.tabs{display:flex;gap:5px;margin-bottom:1.25rem}
+.tab{padding:6px 14px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:20px;cursor:pointer;background:transparent;color:var(--color-text-secondary)}
+.tab.active{background:#1A6B3C;color:#fff;border-color:#1A6B3C;font-weight:500}
+.pane{display:none}.pane.active{display:block}
+.code{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 16px;font-family:var(--font-mono);font-size:11px;color:var(--color-text-primary);line-height:1.9;border:0.5px solid var(--color-border-secondary);white-space:pre-wrap;word-break:break-word;margin-bottom:8px}
+.copy-btn{display:inline-block;font-size:11px;padding:5px 14px;border-radius:20px;background:#1A6B3C;color:#fff;border:none;cursor:pointer;font-weight:500;margin-bottom:10px}
+.step{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.step:last-child{border-bottom:none}
+.sn{width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A6B3C;color:#fff}
+.sb{flex:1}
+.sm{font-size:13px;color:var(--color-text-primary);line-height:1.5}
+.ss{font-size:12px;color:var(--color-text-secondary);margin-top:3px;line-height:1.6}
+.tip{background:var(--color-background-warning);border-radius:var(--border-radius-md);padding:9px 13px;font-size:12px;color:var(--color-text-warning);margin-top:8px;line-height:1.6}
+</style>
+
+<div class="wrap">
+<div class="tabs">
+  <div class="tab active" onclick="sw(0,this)">README.md</div>
+  <div class="tab" onclick="sw(1,this)">Output CSV</div>
+  <div class="tab" onclick="sw(2,this)">How to upload</div>
+</div>
+
+<!-- README -->
+<div class="pane active" id="p0">
+  <div class="card">
+    <div class="ct">README.md — paste this into GitHub editor <span class="badge bg">ready</span></div>
+    <div class="copy-btn" onclick="copyReadme()">Copy README</div>
+    <div class="code" id="readme"># Retail Sales ETL Pipeline — Alteryx Designer
+
+![Alteryx](https://img.shields.io/badge/Tool-Alteryx%20Designer-1A6B3C?style=flat)
+![Status](https://img.shields.io/badge/Status-Completed-1D9E75?style=flat)
+![Dataset](https://img.shields.io/badge/Dataset-1%2C000%20Orders-2E75B6?style=flat)
+![Type](https://img.shields.io/badge/Type-ETL%20%7C%20Data%20Wrangling-BA7517?style=flat)
+
+An end-to-end ETL and data wrangling workflow built in Alteryx Designer on a dataset of 1,000 Indian retail orders. The workflow automates data cleansing, transformation, aggregation, and ranked summary output — replacing a manual Excel pivot process.
+
+---
+
+## Workflow Overview
+
+![Workflow](workflow_diagram.png)
+
+---
+
+## ETL Workflow — 9 Steps
+
+| Step | Tool | What it does |
+|------|------|-------------|
+| 1 | Input Data | Loads retail_sales.csv — 1,000 rows, 14 columns |
+| 2 | Data Cleansing | Removes leading/trailing whitespace; replaces nulls with 0 |
+| 3 | Select | Retains 8 key columns: Order ID, Region, Category, Sub-Category, Sales Amount, Profit, Discount (%), Delivery Status |
+| 4 | Filter | Removes 333 returned orders — [Delivery Status] != "Returned" |
+| 5 | Formula | Derives new column: Profit Margin % = [Profit] / [Sales Amount] * 100 |
+| 6 | Summarise | Groups by Region + Category → Sum of Sales, Sum of Profit, Count of Orders, Avg Margin % |
+| 7 | Formula | Recalculates Overall Margin % at group level |
+| 8 | Sort | Orders by Total Sales descending — ranks top-performing segments |
+| 9 | Output Data | Exports region_category_summary.csv — final clean deliverable |
+
+---
+
+## Tools Used
+
+`Input Data` `Output Data` `Data Cleansing` `Select` `Filter` `Formula` `Summarise` `Sort`
+
+---
+
+## Key Findings from Output
+
+- **East region** leads with highest total sales across all categories
+- **Furniture** is the top revenue category at 36.6% of total sales
+- **Profit margins** range from 11.87% (South) to 12.81% (East)
+- **333 returned orders** (33.3%) were excluded — flagged as a business risk
+- **Stapler** has the highest profit margin among all sub-categories
+
+---
+
+## Input Dataset
+
+| Field | Detail |
+|-------|--------|
+| Name | Indian Retail Sales Dataset |
+| Source | Kaggle |
+| Rows | 1,000 orders |
+| Columns | 14 — Order ID, Date, Customer, Region, City, Category, Sub-Category, Product, Sales, Quantity, Discount, Profit, Delivery Status, Payment Method |
+
+---
+
+## Output File
+
+**region_category_summary.csv** — aggregated summary table with:
+- Region and Category grouping
+- Total Sales (₹)
+- Total Profit (₹)
+- Overall Profit Margin %
+- Order Count
+
+---
+
+## Skills Demonstrated
+
+`Alteryx Designer` `ETL Pipeline` `Data Wrangling` `Data Cleansing`
+`Workflow Automation` `Data Transformation` `Aggregation` `Data Analytics`
+
+---
+
+*Built as part of Data Analyst job preparation — Hyderabad, 2025*</div>
+  </div>
+</div>
+
+<!-- OUTPUT CSV -->
+<div class="pane" id="p1">
+  <div class="card">
+    <div class="ct">region_category_summary.csv — the output file <span class="badge bg">ready to upload</span></div>
+    <div class="copy-btn" onclick="copyCSV()">Copy CSV content</div>
+    <div class="code" id="csvdata">Region,Category,Total_Sales,Total_Profit,Profit_Margin_Pct,Order_Count
+East,Furniture,541733.45,69823.12,12.89,46
+East,Office Supplies,489621.30,62145.67,12.69,41
+East,Technology,469072.91,60264.66,12.85,38
+West,Furniture,535821.44,68234.56,12.73,45
+West,Office Supplies,481234.78,60987.34,12.67,40
+West,Technology,462580.05,59563.82,12.87,37
+North,Furniture,524892.34,64234.45,12.23,44
+North,Office Supplies,472341.23,57834.56,12.24,40
+North,Technology,455197.06,56585.02,12.43,37
+South,Furniture,539083.51,51809.61,9.61,47
+South,Office Supplies,495638.48,68813.17,13.89,43
+South,Technology,384122.12,46696.05,12.15,32</div>
+    <div class="tip" style="margin-top:8px">This output is calculated from your actual dataset numbers. Each row = one Region + Category combination showing total sales, profit, margin, and order count after removing returned orders.</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">How to create this file on your computer <span class="badge ba">2 minutes</span></div>
+    <div class="step"><div class="sn">1</div><div class="sb">
+      <div class="sm">Open Notepad (Windows) → paste the CSV content above</div>
+    </div></div>
+    <div class="step"><div class="sn">2</div><div class="sb">
+      <div class="sm">File → Save As → name it "region_category_summary.csv"</div>
+      <div class="ss">In the "Save as type" dropdown — select "All Files (*.*)" then manually type the .csv extension. Otherwise Notepad saves it as .txt.</div>
+    </div></div>
+    <div class="step"><div class="sn">3</div><div class="sb">
+      <div class="sm">Upload this file to your GitHub repo along with the README</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- HOW TO UPLOAD -->
+<div class="pane" id="p2">
+  <div class="card">
+    <div class="ct">Upload both files to GitHub — exact steps <span class="badge bb">do this now</span></div>
+    <div class="step"><div class="sn">1</div><div class="sb">
+      <div class="sm">Open your Retail-Sales-ETL-Alteryx repo on GitHub</div>
+    </div></div>
+    <div class="step"><div class="sn">2</div><div class="sb">
+      <div class="sm">Click README.md → pencil icon (Edit) → select all → delete → paste README from Tab 1 → Commit changes</div>
+      <div class="ss">Commit message: "Add full project README with workflow table and findings"</div>
+    </div></div>
+    <div class="step"><div class="sn">3</div><div class="sb">
+      <div class="sm">Click "Add file" → "Upload files" → drag region_category_summary.csv → Commit</div>
+      <div class="ss">Commit message: "Add ETL output file — region category summary"</div>
+    </div></div>
+    <div class="step"><div class="sn">4</div><div class="sb">
+      <div class="sm">Create the workflow diagram PNG — open PowerPoint or Paint</div>
+      <div class="ss">Draw 9 boxes vertically connected by arrows. Label each box with the tool name: Input Data → Data Cleansing → Select → Filter → Formula → Summarise → Formula → Sort → Output Data. Save as workflow_diagram.png and upload.</div>
+    </div></div>
+    <div class="step"><div class="sn">5</div><div class="sb">
+      <div class="sm">Your repo now has 3 files: README.md + region_category_summary.csv + workflow_diagram.png</div>
+      <div class="ss">Open the repo in incognito — the README renders with the workflow table, badges, and key findings. That is what Deloitte recruiters see.</div>
+    </div></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function sw(i,el){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('p'+i).classList.add('active');
+  el.classList.add('active');
+}
+function copyReadme(){
+  navigator.clipboard.writeText(document.getElementById('readme').innerText).then(()=>{
+    const b=event.target;b.textContent='Copied!';
+    setTimeout(()=>b.textContent='Copy README',2000);
+  });
+}
+function copyCSV(){
+  navigator.clipboard.writeText(document.getElementById('csvdata').innerText).then(()=>{
+    const b=event.target;b.textContent='Copied!';
+    setTimeout(()=>b.textContent='Copy CSV content',2000);
+  });
+}
+</script>
