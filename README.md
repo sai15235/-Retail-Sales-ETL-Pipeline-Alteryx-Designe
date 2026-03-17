@@ -9,12 +9,6 @@ An end-to-end ETL and data wrangling workflow built in Alteryx Designer on a dat
 
 ---
 
-## Workflow Overview
-
-![Workflow](workflow_diagram.png)
-
----
-
 ## ETL Workflow — 9 Steps
 
 | Step | Tool | What it does |
